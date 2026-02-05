@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-02-05T11:33:35+05:30",
+  "id": "pharma-ai-gemma-dashboard",
+  "duration": 0,
+  "title": "Building a Privacy-First Pharma AI Dashboard with Gemma 3",
+  "authors": "Geeta Kakrani",
+  "summary": "Building a Privacy-First Pharma AI Dashboard with Gemma 3 and AutoML scope.",
+  "source": "pharma_doc.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "ai",
+    "gemma",
+    "pharma"
+  ],
+  "tags": [
+    "expert"
+  ],
+  "feedback": "https://github.com/geeta-gwalior/Analytica-Agent",
+  "url": "pharma-ai-gemma-dashboard"
+}

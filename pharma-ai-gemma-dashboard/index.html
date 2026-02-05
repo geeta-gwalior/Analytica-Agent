@@ -1,0 +1,300 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Building a Privacy-First Pharma AI Dashboard with Gemma 3</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id=""
+                  id="pharma-ai-gemma-dashboard"
+                  title="Building a Privacy-First Pharma AI Dashboard with Gemma 3"
+                  environment="web"
+                  feedback-link="https://github.com/geeta-gwalior/Analytica-Agent">
+    
+      <google-codelab-step label=" Overview" duration="0">
+        <p><em>In the pharmaceutical industry, data privacy is a non-negotiable priority. Sending sensitive clinical trials, drug formulations, or patient records to public cloud-based AI models can pose significant security and regulatory risks (HIPAA, GDPR).</em></p>
+<p><em>In this codelab, you will build a </em></p>
+<p><strong><em>&#34;Zero-Compromise&#34; AI Business Dashboard</em></strong></p>
+<p><em>. This advanced version uses Gemma 3 </em></p>
+
+<p><em> not just as a chatbot, but as a Structured Data Analyst</em></p>
+
+<p><em> that identifies business domains, recommends KPIs, and suggests visualizations—all while keeping data strictly local.</em></p>
+<h2 is-upgraded><strong><em>What you will learn:</em></strong></h2>
+<ul>
+<li><em>Setting up Gemma 3 on a local machine.</em></li>
+<li><em>Building an automated Business Intelligence (BI) dashboard using Streamlit.</em></li>
+<li><em>Implementing structured JSON output parsing from an LLM.</em></li>
+<li><em>Dynamically rendering charts based on AI recommendations.</em></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label=" Prerequisites" duration="0">
+        <p><em>To follow this tutorial, you will need the following:</em></p>
+<ul>
+<li><strong><em>Python 3.9+</em></strong><em> installed on your system.</em></li>
+<li><strong><em>Ollama:</em></strong><em> For running LLMs locally (</em><a href="https://ollama.com" target="_blank"><em>download at ollama.com</em></a><em>).</em></li>
+<li><em>Basic knowledge of Python, Pandas, and Streamlit.</em></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setting Up the Local AI Engine" duration="0">
+        <p><em>We are using Gemma 3 because it is a lightweight, high-performance model optimized for reasoning and structured output tasks.</em></p>
+<h2 is-upgraded><strong><em>Step 1: Install Ollama</em></strong></h2>
+<p><em>After installing Ollama, run the following command to download the model:</em></p>
+<p><em># Pull the Gemma 3 4B model</em></p>
+<p><em>ollama pull gemma3:4b</em></p>
+<h2 is-upgraded><strong><em>Step 2: Install Required Libraries</em></strong></h2>
+<p><em>Install the libraries needed for data processing and the web interface:</em></p>
+<p><em>pip install streamlit pandas ollama</em></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Implementation: The Advanced Dashboard" duration="0">
+        <p><em>Create a file named </em></p>
+<p><em><code>app.py</code></em></p>
+<p><em>. We will implement this in three logical layers: Data Preprocessing, AI Analysis (JSON-based), and Dynamic UI Rendering.</em></p>
+<h2 is-upgraded><strong><em>Step 1: Data Preprocessing &amp; Helper Functions</em></strong></h2>
+<p><em>Before sending data to the AI, we need to summarise it so the model understands the schema without reading thousands of rows.</em></p>
+<ul>
+<li><em><code>preprocess_data</code></em><em>: Extracts column names, types, and missing value counts.</em></li>
+<li><em><code>safe_json_parse</code></em><em>: Since LLMs sometimes add conversational text around JSON, this uses Regular Expressions to find and extract the valid JSON block.</em></li>
+<li><em><code>calculate_kpi</code></em><em>: A mapping function that calculates actual totals from the dataframe based on the names suggested by the AI.</em></li>
+</ul>
+<h2 is-upgraded><strong><em>Step 2: The AI Analysis Engine</em></strong></h2>
+<p><em>This function constructs a prompt containing the &#34;Profile&#34; of the dataset. Notice the instruction </em></p>
+<p><strong><em>&#34;Return STRICT JSON&#34;</em></strong></p>
+<p><em>. This is crucial because it allows our Python code to use the AI&#39;s &#34;thoughts&#34; to build actual UI components.</em></p>
+<h2 is-upgraded><strong><em>Step 3: UI Layer</em></strong></h2>
+<p><em>Using Streamlit, we create a file uploader. Once a file is uploaded, the AI analyzes the metadata, and the dashboard dynamically builds metrics and charts.</em></p>
+<h2 is-upgraded><strong><em>The Full Code</em></strong></h2>
+<p><em>Paste the following code into your </em></p>
+<p><em><code>app.py</code></em></p>
+<p><em>:</em></p>
+<p><em>import streamlit as st</em></p>
+<p><em>import pandas as pd</em></p>
+<p><em>import json</em></p>
+<p><em>import ollama</em></p>
+<p><em>import re</em></p>
+<p><em># -————— CONFIG &amp; UI -—————</em></p>
+<p><em>st.set_page_config(page_title=&#34;AI Pharma Business Dashboard&#34;, layout=&#34;wide&#34;)</em></p>
+<p><em>st.title(&#34;📊 Pharma Business Dashboard (Gemma 3 – AI Analyst)&#34;)</em></p>
+<p><em># -————— HELPERS: Data &amp; Parsing -—————</em></p>
+<p><em>def preprocess_data(df):</em></p>
+<pre><code>&#34;&#34;&#34; Summarises dataset structure for the LLM.&#34;&#34;&#34;
+
+return {
+
+    &#34;rows&#34;: len(df),
+
+    &#34;columns&#34;: list(df.columns),
+
+    &#34;numeric&#34;: df.select\_dtypes(include=&#34;number&#34;).columns.tolist(),
+
+    &#34;categorical&#34;: df.select\_dtypes(exclude=&#34;number&#34;).columns.tolist(),
+
+    &#34;missing&#34;: df.isnull().sum().to\_dict()
+
+}
+</code></pre>
+<p><em>def safe_json_parse(text):</em></p>
+<pre><code>&#34;&#34;&#34;Safely extracts and parses JSON from LLM response.&#34;&#34;&#34;
+
+if not text or text.strip() \== &#34;&#34;: return None
+
+try:
+
+    return json.loads(text)
+
+except:
+
+    match \= re.search(r&#34;\\{.\*\\}&#34;, text, re.DOTALL)
+
+    if match:
+
+        try: return json.loads(match.group())
+
+        except: return None
+
+return None
+</code></pre>
+<p><em>def calculate_kpi(kpi_name, df):</em></p>
+<pre><code>&#34;&#34;&#34;Logic to map AI suggested KPIs to actual data values.&#34;&#34;&#34;
+
+name \= kpi\_name.lower()
+
+numeric\_cols \= df.select\_dtypes(include=&#34;number&#34;).columns
+
+if any(x in name for x in \[&#34;revenue&#34;, &#34;sales&#34;, &#34;amount&#34;\]):
+
+    for col in numeric\_cols:
+
+        if any(x in col.lower() for x in \[&#34;revenue&#34;, &#34;sales&#34;, &#34;amount&#34;\]):
+
+            return f&#34;${df\[col\].sum():,.0f}&#34;
+
+return &#34;N/A&#34;
+</code></pre>
+<p><em># -————— AI ANALYSIS ENGINE -—————</em></p>
+<p><em>def gemma_business_analysis(profile, df):</em></p>
+<pre><code>sample \= df.head(5).to\_dict()
+
+prompt \= f&#34;&#34;&#34;
+</code></pre>
+<p><em>You are a senior pharma business analyst.</em></p>
+<p><em>Dataset profile: {profile}</em></p>
+<p><em>Sample data: {sample}</em></p>
+<p><em>Tasks:</em></p>
+<p><em>1. Identify business domain (e.g., Clinical Trials, Sales, Supply Chain)</em></p>
+<p><em>2. List 4–6 important KPIs</em></p>
+<p><em>3. Recommend charts (bar or line)</em></p>
+<p><em>4. Write clear business insights</em></p>
+<p><em>Return STRICT JSON:</em></p>
+<p><em>&#123;&#123;</em></p>
+<p><em>&#34;domain&#34;: &#34;&#34;,</em></p>
+<p><em>&#34;kpis&#34;: [&#34;&#34;, &#34;&#34;],</em></p>
+<p><em>&#34;charts&#34;: [&#123;&#123;&#34;type&#34;: &#34;bar&#34;, &#34;x&#34;: &#34;&#34;, &#34;y&#34;: &#34;&#34;}}],</em></p>
+<p><em>&#34;insights&#34;: [&#34;&#34;, &#34;&#34;]</em></p>
+<p><em>}}</em></p>
+<p><em>&#34;&#34;&#34;</em></p>
+<pre><code>response \= ollama.chat(model=&#34;gemma3:4b&#34;, messages=\[{&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: prompt}\])
+
+parsed \= safe\_json\_parse(response\[&#34;message&#34;\]\[&#34;content&#34;\])
+
+return parsed if parsed else {&#34;domain&#34;: &#34;Unknown&#34;, &#34;kpis&#34;: \[\], &#34;charts&#34;: \[\], &#34;insights&#34;: \[&#34;Parsing Error&#34;\]}
+</code></pre>
+<p><em># -————— DYNAMIC UI RENDERING -—————</em></p>
+<p><em>uploaded_file = st.file_uploader(&#34;📁 Upload your Pharma/Business CSV file&#34;, type=[&#34;csv&#34;])</em></p>
+<p><em>if uploaded_file:</em></p>
+<pre><code>df \= pd.read\_csv(uploaded\_file, encoding=&#34;latin-1&#34;)
+
+st.subheader(&#34; Data Preview&#34;)
+
+st.dataframe(df.head())
+
+
+
+profile \= preprocess\_data(df)
+
+if st.button(&#34; Generate AI Insights&#34;):
+
+    with st.spinner(&#34;Gemma 3 is analyzing your data locally...&#34;):
+
+        result \= gemma\_business\_analysis(profile, df)
+
+    st.subheader(f&#34; Domain: {result\[&#39;domain&#39;\]}&#34;)
+
+    
+
+    \# Display KPIs
+
+    st.markdown(&#34;\#\# 📈 Key Metrics&#34;)
+
+    k\_cols \= st.columns(len(result\[&#34;kpis&#34;\]\[:4\]))
+
+    for i, kpi in enumerate(result\[&#34;kpis&#34;\]\[:4\]):
+
+        val \= calculate\_kpi(kpi, df)
+
+        k\_cols\[i\].metric(kpi, val)
+
+    \# Render AI-Recommended Charts
+
+    st.subheader(&#34;📊 Visual Analytics&#34;)
+
+    for chart in result\[&#34;charts&#34;\]:
+
+        x, y \= chart.get(&#34;x&#34;), chart.get(&#34;y&#34;)
+
+        if x in df.columns and y in df.columns:
+
+            if chart\[&#34;type&#34;\] \== &#34;bar&#34;: st.bar\_chart(df.groupby(x)\[y\].sum())
+
+            else: st.line\_chart(df.groupby(x)\[y\].sum())
+
+    st.subheader(&#34; Strategic Insights&#34;)
+
+    for insight in result\[&#34;insights&#34;\]:
+
+        st.write(f&#34;• {insight}&#34;)
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Key Innovations in this Codelab" duration="0">
+        <ul>
+<li><strong><em>Structured Reasoning:</em></strong><em> Instead of plain text, the model generates JSON, allowing the code to programmatically build the UI.</em></li>
+<li><strong><em>Zero-Data Leakage:</em></strong><em> Even the data summarization and metadata analysis happen within your local </em><em><code>ollama</code></em><em> instance.</em></li>
+<li><strong><em>Dynamic BI:</em></strong><em> The dashboard adapts to any CSV—whether it&#39;s clinical trial results or pharma supply chain logs.</em></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Running the Application" duration="0">
+        <p><em>Launch your private dashboard by running:</em></p>
+<p><em>streamlit run app.py</em></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Conclusion" duration="0">
+        <p><em>By integrating Gemma 3 as a structured analyst, you&#39;ve moved beyond simple chat interfaces into </em></p>
+<p><strong><em>Agentic BI</em></strong></p>
+<p><em>. For Pharma consultants, this provides a &#34;ready-to-deploy&#34; framework that respects data sovereignty while delivering high-level executive insights.</em></p>
+<p><strong><em>Next Steps:</em></strong></p>
+<ul>
+<li><strong><em>Persistence:</em></strong><em> Connect this to a local database instead of CSV uploads.</em></li>
+<li><strong><em>Advanced Logic:</em></strong><em> Refine the </em><em><code>calculate_kpi</code></em><em> function to handle complex Pharma-specific formulas like &#34;Drug Efficacy Ratio.&#34;</em></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Future Roadmap: Agentic AutoML Integration" duration="0">
+        <p><em>The true power of this project lies in its future scalability. We are moving towards an </em></p>
+<p><strong><em>Agentic AutoML</em></strong></p>
+<p><em> framework where:</em></p>
+<ol type="1">
+<li><strong><em>Automated Model Selection:</em></strong><em> Instead of human-defined models, the agent will analyze the dataset&#39;s distribution and automatically select the best machine learning algorithm (e.g., Random Forest vs. XGBoost for clinical outcome prediction).</em></li>
+<li><strong><em>Self-Correction:</em></strong><em> If the model&#39;s accuracy is below a threshold, the Agent will perform hyperparameter tuning locally without user intervention.</em></li>
+<li><strong><em>Cross-Model Reasoning:</em></strong><em> Integrating Gemini via API for high-level strategy (Public data) while keeping Gemma 3 local for sensitive computations (Hybrid AI).</em></li>
+</ol>
+<p><em>Developed by Geeta Kakrani | Google Developer Expert (AI)</em></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
