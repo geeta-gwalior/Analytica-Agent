@@ -1,84 +1,53 @@
-Analytica Agent
+ <h1>Analytica-Agent: Privacy-First Pharma AI Dashboard</h1>
 
-Analytica Agent is a privacy-first GenAI tool that automatically converts CSV files into dashboards using local open LLMs.
-It runs entirely on the user’s system, making it suitable for organisations working with sensitive data.
+Powered by Gemma 3 & Agentic AutoML
 
-Overview
+ <b>Overview</b>
 
-Many teams want quick insights from data but cannot send files to cloud-based LLMs due to privacy, compliance, or security constraints.
-Analytica Agent addresses this by performing analysis and dashboard generation locally.
+Analytica-Agent is an enterprise-grade Business Intelligence (BI) tool designed specifically for the Pharmaceutical industry. Built with a Privacy-First mindset, it leverages the power of Gemma 3 to perform deep data analysis locally, ensuring sensitive clinical and sales data never leaves the premises.
 
-A user uploads a CSV file, and the system:
+ <b>Key Features</b>
 
-understands the data structure
+Zero-Cloud Analysis: Fully local execution using Ollama and Gemma 3.
 
-identifies useful metrics and aggregations
+Agentic Domain Discovery: Automatically identifies business domains (Clinical, Sales, Supply Chain).
 
-generates a dashboard automatically
+Dynamic KPI Generation: AI-driven metrics and chart recommendations based on data schema.
 
-The entire flow runs on-prem without any external API calls.
+Privacy-Compliant: Designed for HIPAA and GDPR sensitive environments.
 
-Design Approach
+ Future Scope: Agentic AutoML
 
-Analytica Agent is built using Ollama and Gemma (open LLMs).
-An agent layer interprets the dataset and decides how to analyse it before generating visual outputs.
+We are currently integrating an AutoML Engine where the agent doesn't just analyse data but also:
 
-There is no dependency on paid APIs or cloud inference.
-Accuracy is prioritised over speed.
+Model Selection: Automatically chooses between Regression, Classification, or Clustering based on feature distribution.
 
-Performance depends on local hardware.
-The current development environment uses 8GB RAM and 128GB storage, which results in slower execution but stable and correct outputs.
+Autonomous Training: Triggers local scikit-learn pipelines without user intervention.
 
-AutoML Direction (In Progress)
+Self-Correction: Refines hyperparameters based on local accuracy benchmarks.
 
-The project is evolving towards an AutoML-style workflow.
-Current and planned capabilities include:
+ <b>Learn with the Codelab</b>
 
-automatic column type detection
+I have authored a detailed, step-by-step Codelab for this project.
+👉 View the Pharma AI Codelab (Note: If hosting on GitHub Pages, provide the full URL here)
 
-feature understanding and grouping
+ Quick Start
 
-suggested metrics and aggregations
+# Clone the repository
+git clone [https://github.com/geeta-gwalior/Analytica-Agent.git](https://github.com/geeta-gwalior/Analytica-Agent.git)
 
-adaptive analysis based on dataset patterns
+# Install dependencies
+pip install streamlit pandas ollama
 
-These capabilities are under active development.
+# Pull Gemma 3
+ollama pull gemma3:4b
 
-Technology Stack
+# Run the dashboard
+streamlit run app.py
 
-Python
 
-Ollama
+👩‍💻 Author
 
-Gemma (open LLM)
+Geeta Kakrani Google Developer Expert (AI) 22+ Years of Experience in Tech Leadership & AI Research.
 
-Pandas for data processing
-
-Visualisation libraries for dashboards
-
-Agent-based orchestration logic
-
-Intended Use Cases
-
-Pharma and healthcare analytics
-
-Enterprises handling regulated or sensitive data
-
-Internal reporting tools
-
-Offline or air-gapped environments
-
-Teams exploring privacy-first GenAI systems
-
-Project Status
-
-Core CSV to dashboard flow is implemented.
-Local LLM integration is stable.
-AutoML capabilities and performance optimisations are ongoing.
-
-Contributions
-
-This project is actively being developed.
-Feedback and contributions are welcome.
-
-https://medium.com/google-developer-experts/personal-ai-in-pharma-keeping-your-data-private-with-zero-compromise-using-google-gemma-58ee9ce938a8
+This project is part of my research into making Generative AI accessible and secure for highly regulated industries.
