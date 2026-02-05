@@ -5,7 +5,7 @@ import ollama
 
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="AI Business Dashboard", layout="wide")
-st.title("📊 AI Business Dashboard (Gemma 3 – Business Analyst)")
+st.title(" AI Business Dashboard (Gemma 3 – Business Analyst)")
 
 # ---------------- HELPERS ----------------
 def preprocess_data(df):
@@ -146,15 +146,15 @@ if uploaded_file:
 
     profile = preprocess_data(df)
 
-    with st.expander("📌 Dataset Summary"):
+    with st.expander(" Dataset Summary"):
         st.json(profile)
 
-    if st.button("🚀 Generate Business Dashboard"):
+    if st.button(" Generate Business Dashboard"):
         with st.spinner("Gemma is analyzing your business data..."):
             result = gemma_business_analysis(profile, df)
 
         # ---------- BUSINESS DOMAIN ----------
-        st.subheader("🏢 Business Domain")
+        st.subheader(" Business Domain")
         st.write(result["domain"])
 
         # ---------- KPIs ----------
@@ -192,6 +192,6 @@ if uploaded_file:
 
 
         # ---------- INSIGHTS ----------
-        st.subheader("🧠 Business Insights")
+        st.subheader(" Business Insights")
         for insight in result["insights"]:
             st.write("•", insight)
