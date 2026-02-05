@@ -16,7 +16,7 @@ Dynamic KPI Generation: AI-driven metrics and chart recommendations based on dat
 
 Privacy-Compliant: Designed for HIPAA and GDPR sensitive environments.
 
- Future Scope: Agentic AutoML
+ <b>Future Scope: Agentic AutoML</b>
 
 We are currently integrating an AutoML Engine where the agent doesn't just analyse data but also:
 
@@ -31,7 +31,7 @@ Self-Correction: Refines hyperparameters based on local accuracy benchmarks.
 I have authored a detailed, step-by-step Codelab for this project.
 👉 View the Pharma AI Codelab (Note: If hosting on GitHub Pages, provide the full URL here)
 
- Quick Start
+ <h3>Quick Start</h3>
 
 # Clone the repository
 git clone [https://github.com/geeta-gwalior/Analytica-Agent.git](https://github.com/geeta-gwalior/Analytica-Agent.git)
