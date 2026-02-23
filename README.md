@@ -29,7 +29,7 @@ Self-Correction: Refines hyperparameters based on local accuracy benchmarks.
  <b>Learn with the Codelab</b>
 
 I have authored a detailed, step-by-step Codelab for this project.
-👉 View the Pharma AI Codelab (Note: If hosting on GitHub Pages, provide the full URL here)
+👉 View the Pharma AI Codelab https://geeta-gwalior.github.io/Analytica-Agent/pharma-ai-gemma-dashboard/#0
 
  <h3>Quick Start</h3>
 
